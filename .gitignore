@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+rg/
+
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Pytest
+.pytest_cache/
+
+# Environment variables
+.env
+
+
+
+# Docker
+*.dockerignore
+*.log
+docker-compose.override.yml
+
+# Streamlit
+.streamlit/

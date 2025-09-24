@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6.0
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+
+  api:
+    build: .
+    container_name: rag_fastapi
+    ports:
+      - '8000:8000'
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  streamlit:
+    build: .
+    container_name: rag_streamlit
+    ports:
+      - '8501:8501'
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - .:/app
+    depends_on:
+      - api
+    command: streamlit run app/ui.py --server.port 8501 --server.address 0.0.0.0
+
+volumes:
+  mongo_data:
